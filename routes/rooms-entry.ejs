@@ -1,0 +1,36 @@
+<html>
+    <head>
+        <title>Hotel Management</title>
+        <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+        
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/hotel-rooms">Hotel Management</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              
+              <span class="navbar-text">
+                <button type="button" class="btn btn-danger" onclick="location.href='/login'">Log Out</button>
+              </span>
+            </div>
+          </nav>
+          <br>
+          <div class="container">
+            <form method="POST" action="/book/<%= id %> ">
+               
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Number of members</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" name="members">
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">Book</button>
+            </form>
+        </div>
+          
+        
+    </body>
+</html>
