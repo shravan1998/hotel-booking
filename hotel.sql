@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2020 at 01:16 PM
+-- Generation Time: Feb 12, 2020 at 07:50 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -42,7 +42,8 @@ CREATE TABLE `hotels` (
 INSERT INTO `hotels` (`hotel_rid`, `members`, `type`, `cost`) VALUES
 (2, 0, 'Double bed', 2000),
 (3, 0, 'King Sized', 1500),
-(4, 0, 'A/C', 3500);
+(4, 0, 'A/C', 3500),
+(5, 0, 'Single Bed', 1000);
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,8 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`uid`, `email`, `password`) VALUES
-(1, 'contact@email.com', 'password');
+(1, 'contact@email.com', 'password'),
+(2, 'admin@email.com', 'password');
 
 --
 -- Indexes for dumped tables
@@ -87,13 +89,13 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `hotels`
 --
 ALTER TABLE `hotels`
-  MODIFY `hotel_rid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `hotel_rid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `uid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
