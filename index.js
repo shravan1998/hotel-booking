@@ -19,10 +19,18 @@ app.get('/',function(req,res){
     res.render('index');
 });
 
+app.get('/room-new',function(req,res){
+    res.render('routes/room-new');
+});
+
 app.get('/login',function(req,res){
     res.render('index');
     localStorage.clear();
     console.log(localStorage.getItem('uid'));
+});
+
+app.get('/admin',function(req,res){
+    res.render('routes/admin-login');
 });
 
 app.get('/register',function(req,res){
@@ -30,7 +38,7 @@ app.get('/register',function(req,res){
 });
 
 app.get('/dashboard',function(req,res){
-    var sql="SELECT * FROM `hotels` WHERE `members`<>0";
+    var sql="SELECT * FROM `hotels`";
     connection.query(sql,(err,results,fields)=>{
         if(err){
             console.log(err);
@@ -39,6 +47,46 @@ app.get('/dashboard',function(req,res){
         }
     });
     
+});
+
+app.get('/update/:id',function(req,res){
+    var id = req.params.id;
+    var sql = "SELECT * FROM `hotels` WHERE `hotel_rid`="+id;
+    connection.query(sql,(err,results,fields)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render('routes/update-room',{hotel:results[0]});
+        }
+    });
+});
+
+app.get('/your-hotels',function(req,res){
+    var sql="SELECT * FROM `hotels`  WHERE `members`<>0";
+    connection.query(sql,(err,results,fields)=>{
+        if(err){
+            console.log(err);
+        }else{
+            res.render('routes/your-hotels',{hotel:results});
+        }
+    });
+    
+});
+
+app.post('/update/:id',function(req,res){
+    var id = req.params.id;
+    var cost = req.body.cost;
+    var type = req.body.type;
+    console.log(req.body.cost);
+    var sql = "UPDATE `hotels` SET `cost`="+cost+",`type`='"+type+"' WHERE hotel_rid="+id;
+    connection.query(sql,(err,results,fields)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log('Updated');
+        }
+        return res.redirect('/dashboard');
+    });
 });
 
 app.get('/hotel-rooms',function(req,res){
@@ -102,6 +150,41 @@ app.post('/login',function(req,res){
     
 });
 
+app.post('/admin-login',(req,res)=>{
+    var email = req.body.email;
+    var sql = "SELECT * FROM login WHERE email='"+email+"'";
+    connection.query(sql,function(err,results,fields){
+        if(err){
+            throw err;
+        }
+        else{
+            console.log("The solution is : ",results);
+            
+                
+                    var sql1 = "SELECT uid FROM login WHERE `email`="+email; 
+                    connection.query(sql,function(err,results,fields)
+                    {
+                        if(!err){
+                            //console.log("Inserted");
+                            console.log(results[0].uid);
+                            localStorage.setItem('uid', results[0].uid);
+                            myValue = localStorage.getItem('uid');
+                            console.log(myValue);
+                            
+                        }else{
+                            throw err;
+                        }
+                        
+                    });   
+                    return res.redirect('/room-new');
+                }
+               
+            });
+            
+        
+ 
+});
+
 app.post('/register',(req,res)=>{
     var email = req.body.email;
     var password = req.body.password;
@@ -149,7 +232,19 @@ app.post('/book/:id',(req,res)=>{
             console.log('updated');
         }
     });
-    return res.redirect('/dashboard');
+    return res.redirect('/your-hotels');
+});
+app.get('/cancel/:id',(req,res)=>{
+    console.log(req.params.id);
+    var sql = "UPDATE `hotels` SET `members`=0 WHERE `hotel_rid`="+req.params.id+"";
+    connection.query(sql,(err)=>{
+        if(err){
+            console.log(err)
+        }else{
+            console.log('updated');
+        }
+    });
+    return res.redirect('/your-hotels');
 });
 
 app.get('/delete/:id',(req,res)=>{
@@ -159,6 +254,20 @@ app.get('/delete/:id',(req,res)=>{
             console.log(err);
         }else{
             console.log("Room No Longer Available");
+        }
+    });
+    return res.redirect('/dashboard');
+});
+
+app.post('/new-room',(req,res)=>{
+    var type = req.body.type;
+    var cost = req.body.cost;
+    var sql= "INSERT INTO `hotels`(`type`,`cost`) VALUES('"+type+"',"+cost+")";
+    connection.query(sql,(err)=>{
+        if(err){
+            console.log(err);
+        }else{
+            console.log('Inserted');
         }
     });
     return res.redirect('/dashboard');

@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Hotel Management</title>
+        <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+        
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/room-new">Hotel Management</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link  active" href="/room-new">New Room <span class="sr-only">(current)</span></a>
+                      <a class="nav-item nav-link" href="/dashboard">Admin Dashboard</a>
+                      </div>
+              <span class="navbar-text">
+                <button type="button" class="btn btn-danger" onclick="location.href='/login'">Log Out</button>
+              </span>
+            </div>
+          </nav>
+          <br>
+          <div class="container">
+            <form method="POST" action="/new-room">
+               
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Type</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" name="type">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Cost</label>
+                    <input type="text" class="form-control" id="exampleInputPassword1" name="cost">
+                  </div>
+                  
+                  <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+          
+        
+    </body>
+</html>
