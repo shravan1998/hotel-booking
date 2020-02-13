@@ -62,7 +62,7 @@ app.get('/update/:id',function(req,res){
 });
 
 app.get('/your-hotels',function(req,res){
-    var sql="SELECT * FROM `hotels`  WHERE `members`<>0";
+    var sql="SELECT * FROM `hotels`  WHERE `members`<>0 AND `uid`<>0";
     connection.query(sql,(err,results,fields)=>{
         if(err){
             console.log(err);
@@ -77,8 +77,10 @@ app.post('/update/:id',function(req,res){
     var id = req.params.id;
     var cost = req.body.cost;
     var type = req.body.type;
+    var facilities = req.body.facilities;
     console.log(req.body.cost);
-    var sql = "UPDATE `hotels` SET `cost`="+cost+",`type`='"+type+"' WHERE hotel_rid="+id;
+    console.log(req.body.facilities)
+    var sql = "UPDATE `hotels` SET `cost`="+cost+",`type`='"+type+"',`facilities`='"+facilities+"' WHERE hotel_rid="+id;
     connection.query(sql,(err,results,fields)=>{
         if(err){
             console.log(err);
@@ -90,7 +92,7 @@ app.post('/update/:id',function(req,res){
 });
 
 app.get('/hotel-rooms',function(req,res){
-    sql="SELECT * FROM `hotels`";
+    sql="SELECT * FROM `hotels` WHERE `members`=0";
     connection.query(sql,(err,results,fields)=>{
         if(err){
             console.log(err);
@@ -224,7 +226,8 @@ app.post('/register',(req,res)=>{
 });
 app.post('/book/:id',(req,res)=>{
     console.log(req.params.id);
-    var sql = "UPDATE `hotels` SET `members`="+req.body.members+" WHERE `hotel_rid`="+req.params.id+"";
+    var uid = localStorage.getItem('uid');
+    var sql = "UPDATE `hotels` SET `members`="+req.body.members+",`uid`="+uid+" WHERE `hotel_rid`="+req.params.id+"";
     connection.query(sql,(err)=>{
         if(err){
             console.log(err)
@@ -236,7 +239,7 @@ app.post('/book/:id',(req,res)=>{
 });
 app.get('/cancel/:id',(req,res)=>{
     console.log(req.params.id);
-    var sql = "UPDATE `hotels` SET `members`=0 WHERE `hotel_rid`="+req.params.id+"";
+    var sql = "UPDATE `hotels` SET `members`=0,`uid`=0 WHERE `hotel_rid`="+req.params.id+"";
     connection.query(sql,(err)=>{
         if(err){
             console.log(err)
@@ -245,6 +248,18 @@ app.get('/cancel/:id',(req,res)=>{
         }
     });
     return res.redirect('/your-hotels');
+});
+app.get('/vacant/:id',(req,res)=>{
+    console.log(req.params.id);
+    var sql = "UPDATE `hotels` SET `members`=0,`uid`=0 WHERE `hotel_rid`="+req.params.id+"";
+    connection.query(sql,(err)=>{
+        if(err){
+            console.log(err)
+        }else{
+            console.log('updated');
+        }
+    });
+    return res.redirect('/dashboard');
 });
 
 app.get('/delete/:id',(req,res)=>{
@@ -262,7 +277,8 @@ app.get('/delete/:id',(req,res)=>{
 app.post('/new-room',(req,res)=>{
     var type = req.body.type;
     var cost = req.body.cost;
-    var sql= "INSERT INTO `hotels`(`type`,`cost`) VALUES('"+type+"',"+cost+")";
+    var facilities = req.body.facilities
+    var sql= "INSERT INTO `hotels`(`type`,`cost`,`facilities`) VALUES('"+type+"',"+cost+","+"'"+facilities+"'"+")";
     connection.query(sql,(err)=>{
         if(err){
             console.log(err);

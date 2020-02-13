@@ -3,7 +3,7 @@
         <title>Hotel Management</title>
         <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
-        
+        <link href="./style.css" rel="stylesheet">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -32,6 +32,7 @@
                   <th scope="col">Type</th>
                   <th scope="col">Cost</th>
                   <th scope="col">Members</th>
+                  <th scope="col">Facilities</th>
                  <th scope="col">Tools</th>
                 </tr>
               </thead>
@@ -42,10 +43,16 @@
                   <td><%= x.type %></td>
                   <td><%= x.cost  %> </td>
                   <td><%= x.members %></td>
+                  <td><%= x.facilities %></td>
                   <td>
                     <button class="btn btn-success" onclick="location.href='/update/<%= x.hotel_rid %>'">
                       Update
                       </button>
+                      <% if(x.members!=0){ %>
+                        <button class="btn btn-primary" onclick="location.href='/vacant/<%= x.hotel_rid %>'">
+                          Vacant
+                          </button>
+                      <% } %> 
                       <button class="btn btn-danger" onclick="location.href='/delete/<%= x.hotel_rid %>'">
                       Delete
                       </button>
